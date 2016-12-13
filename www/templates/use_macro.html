@@ -1,0 +1,9 @@
+{#为了重复使用宏，保存在单独文件中，再在需要的模板中导入。#}
+{% import 'macro.html' as macros %}
+<ul>
+    {% for comment in comments%}
+        {{ macros.render_comment(comment)}}
+    {% endfor%}
+</ul>
+{#复用代码片段#}
+{% include 'common.html' %}

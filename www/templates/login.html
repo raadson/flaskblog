@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Sign In</h1>
+    <form method="post" action="" name="login">
+{#{{form.hidden_tag()}} 用来实现在配置中的CSRF保护，如果已经激活CSRF，这个字段要出现在所有表单中#}
+          {{ form.hidden_tag() }}
+            <p>
+            Please ent your OpenID:<br>
+
+            {{ form.openid(size=80) }} <br>
+{#                {% for error in form.openid.errors %}#}
+                    <span style="color: red">{{ error }}</span>
+                <br>
+{#                {% endfor %}#}
+            </p>
+            <p>{{ form.password.label }}</p>
+            {{ form.password }}<br>
+        {% for error in form.password.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor%}
+            <p>{{ form.remember_me }}remember me</p>
+            {{ form.submit(value='登  录') }}
+            <p><input type="submit" value="Sign In"></p>
+    </form>
+{% endblock %}
+
+
