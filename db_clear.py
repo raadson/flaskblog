@@ -5,7 +5,7 @@ from www.model import models
 # users = models.User.query.all()
 # for u in users:
 #     db.session.delete(u)
-posts = models.Post.query.all()
+posts = models.User.query.all()
 for p in posts:
     db.session.delete(p)
 users = models.Role.query.all()

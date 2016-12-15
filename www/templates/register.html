@@ -2,39 +2,31 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 {% extends "layout.html" %}
 {% block content %}
-<div class="uk-width-2-3">
-    <h1>欢迎注册！</h1>
+    <h1>Sign In</h1>
     <form method="post" action="" name="register">
-        <div class="uk-alert uk-alert-danger uk-hidden"></div>
-        <div class="uk-form-row">
-            <label class="uk-form-label">名字:</label>
-            <div class="uk-form-controls">
-                {{ form.username(size=80) }}
-            </div>
-        </div>
-        <div class="uk-form-row">
-            <label class="uk-form-label">电子邮件:</label>
-            <div class="uk-form-controls">
-                {{ form.email(size=80) }}
-            </div>
-        </div>
-        <div class="uk-form-row">
-            <label class="uk-form-label">输入口令:</label>
-            <div class="uk-form-controls">
-                {{ form.password1(size=80) }}
-            </div>
-        </div>
-        <div class="uk-form-row">
-            <label class="uk-form-label">重复口令:</label>
-            <div class="uk-form-controls">
-                {{ form.password2(size=80) }}
-            </div>
-        </div>
-        <p><input type="submit" value="注册"></p>
-{#        {{ form.submit(value='注        册') }}#}
-{#        <div class="u?k-form-row">#}
-{#            <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-user"></i> 注册</button>#}
-{#        </div>#}
+{#{{form.hidden_tag()}} 用来实现在配置中的CSRF保护，如果已经激活CSRF，这个字段要出现在所有表单中#}
+          {{ form.hidden_tag() }}
+            <p>
+            Please ent your OpenID:<br>
+
+            {{ form.username(size=80) }} <br>
+{#                {% for error in form.openid.errors %}#}
+                    <span style="color: red">{{ error }}</span>
+                <br>
+{#                {% endfor %}#}
+            </p>
+    <p>{{ form.email.label }}</p>
+            {{ form.email }}<br>
+            <p>{{ form.password1.label }}</p>
+            {{ form.password1 }}<br>
+{#    <p>{{ form.password2.label }}</p>#}
+{#            {{ form.password2 }}<br>#}
+{#        {% for error in form.password1.errors %}#}
+{#            <span style="color: red;">{{ error }}</span>#}
+{#        {% endfor%}#}
+            {{ form.submit(value='登  录') }}
+            <p><input type="submit" value="Sign In"></p>
     </form>
-</div>
 {% endblock %}
+
+

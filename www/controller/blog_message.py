@@ -5,7 +5,7 @@ from flask_login import  login_user,logout_user,current_user,login_required
 from www import app, db,lm
 from www.forms import LoginForm,RegistrationForm
 from www.model import models
-from www.model.models import User,Role
+from www.model.models import User
 
 @lm.user_loader
 def load_user(userid):
@@ -36,13 +36,14 @@ def index():
 
 @app.route('/login',methods=['GET','POST'])
 def login():
-    if g.user is not None and g.user.is_authenticated:
-        return redirect(url_for('index'))
+    # if g.user is not None and g.user.is_authenticated:
+    #     return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        if models.User.query.filter_by(username=form.openid.data).first():
-            user = User.query.filter_by(username=form.openid.data).first_or_404()
-            if user and user.verify_password(form.password.data):
+        # if models.User.query.filter_by(username=form.openid.data).first():
+            user = User.query.filter_by(username=form.openid.data).first()
+            # user = User.query.filter_by(username=form.openid.data).first_or_404()
+            if user is not None and user.verify_password(form.password.data):
                 login_user(user)
         #flash('login requested for OpenID="'+form.openid.data+'",remember_me='+str(form.remember_me.data))
                 return redirect(url_for('index'))
@@ -61,19 +62,20 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data,email=form.email.data,password_hash=form.password1.data)
-        db.session.add(user)
-        db.session.commit()
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None:
+            user = User(email=form.email.data,username=form.username.data,password=form.password1.data)
+            db.session.add(user)
+            db.session.commit()
 
-        flash('Thanks for registering')
-        return redirect(url_for('login'))
+            flash('Thanks for registering')
+            return redirect(url_for('login'))
         #if form.validate_on_submit():
 
     return render_template(
          'register.html',
             title = "Register",
-         form = form
-    )
+         form = form)
 #登出时
 @app.route('/logout')
 @login_required#意思是登录以后才能访问看到这个页面

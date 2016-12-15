@@ -5,6 +5,6 @@ from www import db
 from www.model import models
 #新增文章
 u = models.User.query.get(1)
-p = models.Post(body='my first post!',timestamp=datetime.datetime.utcnow(),author=u)
+p = models.Role(body='my first post!',timestamp=datetime.datetime.utcnow(),author=u)
 db.session.add(p)
 db.session.commit()
